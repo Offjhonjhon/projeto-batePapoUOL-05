@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bate-Papo UOL</title>
+
+    <!-- Arquivos CSS -->
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/side-menu.css">
+
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+    <header>
+        <img src="imgs/logo 1.png" alt="logo UOL">
+        <img src="imgs/people.svg" alt="icone para menu lateral" onclick="openSideMenu()">
+    </header>
+
+    <div class="pagina">
+        <main>
+        </main>
+    </div>
+
+    <aside class="side-menu-all">
+        <div class="side-menu-background" onclick="closeSideMenu()"></div>
+        <div class="side-menu"></div>
+    </aside>
+
+    <footer>
+        <input type="text" placeholder="Escreva aqui..." name="Mensagem">
+        <img src="imgs/paper-plane.svg" alt="enviar mensagem">
+    </footer>
+
+    <!-- Arquivo JS -->
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</body>
+
+</html>
