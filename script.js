@@ -9,6 +9,7 @@ let arrayMessages = [];
 // catchName();
 // setInterval(sendPeriodicNameRequest, 5000);
 pickUpMensages();
+setInterval(pickUpMensages, 3000);
 
 // Requisiçoes para o servidor relacionadas ao nome do usuario
 // Recebe o nome do usuario ao abrir a pagina
@@ -91,8 +92,14 @@ function formatMensage() {
                 </div>
                 `}
     }
+    scrollLastMessage();
 }
 
+// Faz com que a ultima mensagem enviada apareca no final do chat
+function scrollLastMessage() {
+    const lastMessage = document.querySelector("main div:last-of-type");
+    lastMessage.scrollIntoView();
+}
 
 
 
