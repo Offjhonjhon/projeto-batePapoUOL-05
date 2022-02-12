@@ -2,14 +2,14 @@ let userNamePost = {
     name: null
 };
 let arrayMessages = [];
+let postMessage = {};
 
-
-
-
-// catchName();
-// setInterval(sendPeriodicNameRequest, 5000);
+catchName();
 pickUpMensages();
 setInterval(pickUpMensages, 3000);
+setInterval(sendPeriodicNameRequest,5000);
+
+
 
 // Requisiçoes para o servidor relacionadas ao nome do usuario
 // Recebe o nome do usuario ao abrir a pagina
@@ -46,7 +46,7 @@ function sendPeriodicNameRequest() {
 }
 
 
-// Requisiçoes relacionadas as mensagens no servidor
+// Requisiçoes relacionadas a receber as mensagens do servidor
 // Pede ao servidor as mensagens
 function pickUpMensages() {
     const promisse = axios.get("https://mock-api.driven.com.br/api/v4/uol/messages");
@@ -94,7 +94,6 @@ function formatMensage() {
     }
     scrollLastMessage();
 }
-
 // Faz com que a ultima mensagem enviada apareca no final do chat
 function scrollLastMessage() {
     const lastMessage = document.querySelector("main div:last-of-type");
@@ -102,8 +101,45 @@ function scrollLastMessage() {
 }
 
 
+// Requisições relacionadas a enviar mensagens ao servidor
+// pega o valor do input 
+function pickUpInputMessages(){
+    const input = document.querySelector("footer input").value;
+    console.log(input);
+    treatPostMessage(input);
+    clearInput();
+}
+// Pega o texto do input ao pressionar enter
+document.addEventListener("keypress", function(e) {
+    if(e.key === 'Enter') {
+        const button = document.querySelector("footer img"); 
+        button.click();
+    }
+});
+// Formata o objeto mensagem a ser enviado
+function treatPostMessage(textoMensagem) {
+    postMessage = {
+        from: userNamePost.name,
+        to: "Todos",
+        text: textoMensagem,
+        type: "message"
+    }
+    sendMessage()
+}
+// Envia a mensagem
+function sendMessage() {
+    const promisse = axios.post("https://mock-api.driven.com.br/api/v4/uol/messages", postMessage);
+    promisse.then(treatSuccess);
+    promisse.catch(treatFailure);
+}
+// Limpa o input apos enviada a mensagem
+function clearInput() {
+    const input = document.querySelector("footer input");
+    input.value = "";
+}
 
-// Verificacoes de requisiçoes ao servidor
+
+// Verificações de requisiçoes ao servidor
 // Trata caso a requisição seja bem sucedida
 function treatSuccess(response) {
     const statusCode = response.status;
@@ -119,26 +155,26 @@ function treatFailure(error) {
 
 
 
-// Efeitos do menu lateral
-function openSideMenu() {
-    const sideMenuBackground = document.querySelector(".side-menu-background");
-    const sideMenu = document.querySelector(".side-menu");
-    sideMenu.style.width = "259px";
-    sideMenuBackground.style.width = "375px";
-    showMenuText();
-}
-function closeSideMenu(element) {
-    const sideMenuBackground = document.querySelector(".side-menu-background");
-    const sideMenu = document.querySelector(".side-menu");
-    sideMenu.style.width = "0";
-    sideMenuBackground.style.width = "0";
-    hiddenMenuText();
-}
-function showMenuText() {
-    const sideMenu = document.querySelector(".side-menu");
-    sideMenu.innerHTML = ` <h4>Escolha um contato para enviar mensagem:</h4> `
-}
-function hiddenMenuText() {
-    const sideMenu = document.querySelector(".side-menu");
-    sideMenu.innerHTML = "";
-}
+// // Efeitos do menu lateral
+// function openSideMenu() {
+//     const sideMenuBackground = document.querySelector(".side-menu-background");
+//     const sideMenu = document.querySelector(".side-menu");
+//     sideMenu.style.width = "259px";
+//     sideMenuBackground.style.width = "375px";
+//     showMenuText();
+// }
+// function closeSideMenu(element) {
+//     const sideMenuBackground = document.querySelector(".side-menu-background");
+//     const sideMenu = document.querySelector(".side-menu");
+//     sideMenu.style.width = "0";
+//     sideMenuBackground.style.width = "0";
+//     hiddenMenuText();
+// }
+// function showMenuText() {
+//     const sideMenu = document.querySelector(".side-menu");
+//     sideMenu.innerHTML = ` <h4>Escolha um contato para enviar mensagem:</h4> `
+// }
+// function hiddenMenuText() {
+//     const sideMenu = document.querySelector(".side-menu");
+//     sideMenu.innerHTML = "";
+// }
