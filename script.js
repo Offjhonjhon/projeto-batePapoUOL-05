@@ -10,7 +10,6 @@ setInterval(pickUpMensages, 3000);
 setInterval(sendPeriodicNameRequest,5000);
 
 
-
 // Requisiçoes para o servidor relacionadas ao nome do usuario
 // Recebe o nome do usuario ao abrir a pagina
 function catchName() {
@@ -52,6 +51,7 @@ function pickUpMensages() {
     const promisse = axios.get("https://mock-api.driven.com.br/api/v4/uol/messages");
     promisse.then(treatSuccesMensages);
     promisse.catch(treatFailure);
+    pickUpOnlineUsers();
 }
 // Adiciona as mensages a uma variavel
 function treatSuccesMensages(response) {
@@ -105,7 +105,6 @@ function scrollLastMessage() {
 // pega o valor do input 
 function pickUpInputMessages(){
     const input = document.querySelector("footer input").value;
-    console.log(input);
     treatPostMessage(input);
     clearInput();
 }
@@ -143,7 +142,6 @@ function clearInput() {
 // Trata caso a requisição seja bem sucedida
 function treatSuccess(response) {
     const statusCode = response.status;
-    console.log(statusCode);
 }
 // Trata caso a requisiçao não seja bem sucedida
 function treatFailure(error) {
@@ -152,29 +150,59 @@ function treatFailure(error) {
 }
 
 
+// Requisições relacionadas a lista de participantes
+function pickUpOnlineUsers() {
+    const promisse = axios.get("https://mock-api.driven.com.br/api/v4/uol/participants");
+    promisse.then(treatSuccesOnlineUsers);
+    promisse.catch(treatFailure);
+}
+function treatSuccesOnlineUsers(users) {
+    let onlineUsers = users.data;
+    console.log(onlineUsers);
+}
 
 
 
-// // Efeitos do menu lateral
-// function openSideMenu() {
-//     const sideMenuBackground = document.querySelector(".side-menu-background");
-//     const sideMenu = document.querySelector(".side-menu");
-//     sideMenu.style.width = "259px";
-//     sideMenuBackground.style.width = "375px";
-//     showMenuText();
-// }
-// function closeSideMenu(element) {
-//     const sideMenuBackground = document.querySelector(".side-menu-background");
-//     const sideMenu = document.querySelector(".side-menu");
-//     sideMenu.style.width = "0";
-//     sideMenuBackground.style.width = "0";
-//     hiddenMenuText();
-// }
-// function showMenuText() {
-//     const sideMenu = document.querySelector(".side-menu");
-//     sideMenu.innerHTML = ` <h4>Escolha um contato para enviar mensagem:</h4> `
-// }
-// function hiddenMenuText() {
-//     const sideMenu = document.querySelector(".side-menu");
-//     sideMenu.innerHTML = "";
-// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Efeitos do menu lateral
+function openSideMenu() {
+    const sideMenuBackground = document.querySelector(".side-menu-background");
+    const sideMenu = document.querySelector(".side-menu");
+    const sideMenuAll =document.querySelector(".side-menu-all");
+    sideMenuAll.style.transition = "visibility 0s";
+    sideMenuAll.style.visibility = "visible";
+    sideMenu.style.width = "69%";
+    sideMenuBackground.style.width = "100%";
+    setTimeout(showMenuText, 700);
+}
+function closeSideMenu(element) {
+    const sideMenuBackground = document.querySelector(".side-menu-background");
+    const sideMenu = document.querySelector(".side-menu");
+    const sideMenuAll =document.querySelector(".side-menu-all");
+    sideMenu.style.width = "0";
+    sideMenuBackground.style.width = "0";
+    sideMenuAll.style.transition = "visibility 1s";
+    sideMenuAll.style.visibility = "hidden";
+    hiddenMenuText();
+}
+function showMenuText() {
+    const sideMenu = document.querySelector(".side-menu");
+    sideMenu.innerHTML = ` <h4>Escolha um contato para enviar mensagem:</h4> `
+}
+function hiddenMenuText() {
+    const sideMenu = document.querySelector(".side-menu");
+    sideMenu.innerHTML = "";
+}
