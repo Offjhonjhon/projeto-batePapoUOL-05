@@ -3,11 +3,13 @@ let userNamePost = {
 };
 let arrayMessages = [];
 let postMessage = {};
+let userArray = [];
 
-catchName();
-pickUpMensages();
-setInterval(pickUpMensages, 3000);
-setInterval(sendPeriodicNameRequest,5000);
+// catchName();
+// pickUpMensages();
+// setInterval(pickUpMensages, 3000);
+// setInterval(sendPeriodicNameRequest,5000);
+setInterval(pickUpOnlineUsers,3000);
 
 
 // Requisiçoes para o servidor relacionadas ao nome do usuario
@@ -157,9 +159,17 @@ function pickUpOnlineUsers() {
     promisse.catch(treatFailure);
 }
 function treatSuccesOnlineUsers(users) {
+    const userSelector = document.querySelector(".online-users");
     let onlineUsers = users.data;
-    console.log(onlineUsers);
+    userSelector.innerHTML = "";
+    userSelector.innerHTML += `<div class="online-user"><img src="imgs/people.svg"/><p>Todos</p></div>`;
+    for(let i = 0; i < onlineUsers.length; i++){
+        userSelector.innerHTML += `<div class="online-user"><img src="imgs/PeopleIcon.svg"/><p>${onlineUsers[i].name}</p></div>`;
+    }
 }
+
+
+
 
 
 
@@ -200,7 +210,14 @@ function closeSideMenu(element) {
 }
 function showMenuText() {
     const sideMenu = document.querySelector(".side-menu");
-    sideMenu.innerHTML = ` <h4>Escolha um contato para enviar mensagem:</h4> `
+    sideMenu.innerHTML += ` <h4 id="userChoice">Escolha um contato para enviar mensagem:</h4>
+                            <h4 id="visibilityChoice">Escolha a visibilidade:</h4>
+                            <div class="online-users"></div>
+                            <div class="visibility">
+                                <div class="visibility-option"><img src="imgs/Lock.svg"/><p>Público</p></div>
+                                <div class="visibility-option"><img src="imgs/CloseLock.svg"/><p>Reservadamente</p></div>
+                            </div>
+    `;
 }
 function hiddenMenuText() {
     const sideMenu = document.querySelector(".side-menu");
