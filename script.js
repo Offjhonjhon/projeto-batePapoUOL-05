@@ -3,13 +3,16 @@ let userNamePost = {
 };
 let arrayMessages = [];
 let postMessage = {};
-let userArray = [];
+let chosenUser = 'Todos';
+let chosenVisibility = 'message';
+let usersData = [];
 
-// catchName();
-// pickUpMensages();
-// setInterval(pickUpMensages, 3000);
-// setInterval(sendPeriodicNameRequest,5000);
-setInterval(pickUpOnlineUsers,3000);
+catchName();
+pickUpMensages();
+pickUpOnlineUsers();
+setInterval(pickUpMensages, 3000);
+setInterval(sendPeriodicNameRequest,5000);
+setInterval(pickUpOnlineUsers,10000);
 
 
 // Requisiçoes para o servidor relacionadas ao nome do usuario
@@ -53,7 +56,6 @@ function pickUpMensages() {
     const promisse = axios.get("https://mock-api.driven.com.br/api/v4/uol/messages");
     promisse.then(treatSuccesMensages);
     promisse.catch(treatFailure);
-    pickUpOnlineUsers();
 }
 // Adiciona as mensages a uma variavel
 function treatSuccesMensages(response) {
@@ -121,10 +123,11 @@ document.addEventListener("keypress", function(e) {
 function treatPostMessage(textoMensagem) {
     postMessage = {
         from: userNamePost.name,
-        to: "Todos",
+        to: chosenUser,
         text: textoMensagem,
-        type: "message"
+        type: chosenVisibility
     }
+    console.log(postMessage);
     sendMessage()
 }
 // Envia a mensagem
@@ -159,18 +162,37 @@ function pickUpOnlineUsers() {
     promisse.catch(treatFailure);
 }
 function treatSuccesOnlineUsers(users) {
+    usersData = users.data;
+}
+function formatUserList(list){
     const userSelector = document.querySelector(".online-users");
-    let onlineUsers = users.data;
-    userSelector.innerHTML = "";
-    userSelector.innerHTML += `<div class="online-user"><img src="imgs/people.svg"/><p>Todos</p></div>`;
-    for(let i = 0; i < onlineUsers.length; i++){
-        userSelector.innerHTML += `<div class="online-user"><img src="imgs/PeopleIcon.svg"/><p>${onlineUsers[i].name}</p></div>`;
+    userSelector.innerHTML = `<div class="online-user" onclick="selectMessageTarget('Todos'), selectMessageTargetCheck(this)"><img src="imgs/people.svg"/><img src="imgs/check.svg"/><p>Todos</p></div>`;
+    for(let i = 0; i < list.length; i++){
+        userSelector.innerHTML += userSelector.innerHTML = `<div class="online-user" onclick="selectMessageTarget('${list[i].name}'), selectMessageTargetCheck(this)" ><img src="imgs/people.svg"/><img src="imgs/check.svg"/><p>${list[i].name}</p></div>`;
     }
 }
-
-
-
-
+function selectMessageTarget(chosen){
+    chosenUser = chosen;
+}
+function selectMessageVisibility(chosen){
+    chosenVisibility = chosen;
+}
+function selectMessageTargetCheck(check) {
+    const checkSelectorAll = document.querySelectorAll(".online-user img:nth-of-type(2)");
+    const checkSelector = check.querySelector(".online-user img:nth-of-type(2)");
+    for(let i = 0; i < checkSelectorAll.length; i++){
+        checkSelectorAll[i].style.visibility = "hidden";
+    }
+    checkSelector.style.visibility = "visible";
+}
+function selectVisibilityCheck(check){
+    const checkSelectorAll = document.querySelectorAll(".visibility-option img:nth-of-type(2)");
+    const checkSelector = check.querySelector(".visibility-option img:nth-of-type(2)");
+    for(let i = 0; i < checkSelectorAll.length; i++){
+        checkSelectorAll[i].style.visibility = "hidden";
+    }
+    checkSelector.style.visibility = "visible";
+}
 
 
 
@@ -214,10 +236,11 @@ function showMenuText() {
                             <h4 id="visibilityChoice">Escolha a visibilidade:</h4>
                             <div class="online-users"></div>
                             <div class="visibility">
-                                <div class="visibility-option"><img src="imgs/Lock.svg"/><p>Público</p></div>
-                                <div class="visibility-option"><img src="imgs/CloseLock.svg"/><p>Reservadamente</p></div>
+                                <div class="visibility-option" onclick="selectMessageVisibility('message') ,selectVisibilityCheck(this)"><img src="imgs/Lock.svg"/><img src="imgs/check.svg"/><p>Público</p></div>
+                                <div class="visibility-option" onclick="selectMessageVisibility('private_message') ,selectVisibilityCheck(this)"><img src="imgs/CloseLock.svg"/><img src="imgs/check.svg"/><p>Reservadamente</p></div>
                             </div>
     `;
+    formatUserList(usersData);
 }
 function hiddenMenuText() {
     const sideMenu = document.querySelector(".side-menu");

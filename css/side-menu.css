@@ -66,11 +66,18 @@
     align-items: center;
     margin-bottom: 1px;
 }
-.online-user img {
+.online-user img:first-of-type {
     position: absolute;
     left: 17px;
     height: 25px;
     width: 25px;
+}
+.online-user img:nth-of-type(2) {
+    position: absolute;
+    right: 27px;
+    width: 9px;
+    height: 7px;
+    visibility: hidden;
 }
 .online-user p {
     position: absolute;
@@ -91,11 +98,18 @@
     display: flex;
     align-items: center;
 }
-.visibility-option img {
+.visibility-option img:first-of-type {
     position: absolute;
     left: 17px;
     height: 25px;
     width: 25px;
+}
+.visibility-option img:nth-of-type(2) {
+    position: absolute;
+    right: 27px;
+    width: 9px;
+    height: 7px;
+    visibility: hidden;
 }
 .visibility-option p {
     position: absolute;
