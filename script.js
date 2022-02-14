@@ -156,14 +156,17 @@ function treatFailure(error) {
 
 
 // Requisições relacionadas a lista de participantes
+// Pega uma lista dos usuarios online
 function pickUpOnlineUsers() {
     const promisse = axios.get("https://mock-api.driven.com.br/api/v4/uol/participants");
     promisse.then(treatSuccesOnlineUsers);
     promisse.catch(treatFailure);
 }
+// Caso a lista seja recebida, salva em uma variavel
 function treatSuccesOnlineUsers(users) {
     usersData = users.data;
 }
+// Formata a lista de usuarios online
 function formatUserList(list) {
     const userSelector = document.querySelector(".online-users");
     userSelector.innerHTML = `<div class="online-user" onclick="selectMessageTarget('Todos'), selectMessageTargetCheck(this)"><img src="imgs/people.svg"/><img src="imgs/check.svg"/><p>Todos</p></div>`;
@@ -171,14 +174,17 @@ function formatUserList(list) {
         userSelector.innerHTML += userSelector.innerHTML = `<div class="online-user" onclick="selectMessageTarget('${list[i].name}'), selectMessageTargetCheck(this)" ><img src="imgs/people.svg"/><img src="imgs/check.svg"/><p>${list[i].name}</p></div>`;
     }
 }
+// Seleciona o destinatario da mensagem
 function selectMessageTarget(chosen) {
     chosenUser = chosen;
     showRecipientName();
 }
+// Seleciona a visibilidade da mensagem
 function selectMessageVisibility(chosen) {
     chosenVisibility = chosen;
     showRecipientName()
 }
+// Configura o simbolo de check na lista de usuarios
 function selectMessageTargetCheck(check) {
     const checkSelectorAll = document.querySelectorAll(".online-user img:nth-of-type(2)");
     const checkSelector = check.querySelector(".online-user img:nth-of-type(2)");
@@ -187,6 +193,7 @@ function selectMessageTargetCheck(check) {
     }
     checkSelector.style.visibility = "visible";
 }
+// Configura o simbolo de check na lista de visibilidade
 function selectVisibilityCheck(check) {
     const checkSelectorAll = document.querySelectorAll(".visibility-option img:nth-of-type(2)");
     const checkSelector = check.querySelector(".visibility-option img:nth-of-type(2)");
@@ -201,14 +208,14 @@ function selectVisibilityCheck(check) {
 function showRecipientName() {
     const name = document.querySelector("footer .recipient");
     let visibility = null;
-    if(chosenVisibility === 'message'){
+    if (chosenVisibility === 'message') {
         visibility = 'Público'
     }
-    else if(chosenVisibility === 'private_message'){
+    else if (chosenVisibility === 'private_message') {
         visibility = 'Reservadamente'
     }
-    if(chosenUser !== 'Todos'){
-        
+    if (chosenUser !== 'Todos') {
+
         name.innerHTML = ` 
                             <div class="recipient">
                                 <p> Enviando para ${chosenUser} (${visibility})</p>
@@ -217,21 +224,6 @@ function showRecipientName() {
         `
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // Efeitos do menu lateral
 function openSideMenu() {

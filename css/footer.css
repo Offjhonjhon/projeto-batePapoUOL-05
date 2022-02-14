@@ -17,6 +17,7 @@ footer input {
     width: 250px;
     height: 30px;
     border: none;
+    outline: 0;
 }
 
 footer input::placeholder {
@@ -31,11 +32,13 @@ footer img {
     right: 27px;
     font-size: 26px;
 }
+
 .recipient {
     position: fixed;
     top: 60px;
     left: 17px;
 }
+
 .recipient p {
     font-weight: 300;
     color: #868686;
