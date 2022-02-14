@@ -69,7 +69,7 @@ function formatMensage() {
 
         if (arrayMessages[i].type === "status") {
             messageHtml.innerHTML += ` 
-                <div class="chat ${arrayMessages[i].type}">
+                <div data-identifier="message" class="chat ${arrayMessages[i].type}">
                 <p class="time">(${arrayMessages[i].time}) &nbsp;</p>
                 <p class="from">${arrayMessages[i].from} &nbsp;</p>
                 <p class="text">${arrayMessages[i].text}</p>
@@ -78,7 +78,7 @@ function formatMensage() {
 
         if (arrayMessages[i].type === "message") {
             messageHtml.innerHTML += ` 
-                <div class="chat ${arrayMessages[i].type}">
+                <div data-identifier="message" class="chat ${arrayMessages[i].type}">
                 <p class="time">(${arrayMessages[i].time}) &nbsp;</p>
                 <p class="from">${arrayMessages[i].from} &nbsp;</p>
                 <p> para &nbsp<span class="to">${arrayMessages[i].to}</span> &nbsp;</p>
@@ -88,7 +88,7 @@ function formatMensage() {
 
         if (arrayMessages[i].type === "private_message" && userNamePost.name === arrayMessages[i].to) {
             messageHtml.innerHTML += ` 
-                <div class="chat ${arrayMessages[i].type}">
+                <div data-identifier="message" class="chat ${arrayMessages[i].type}">
                 <p class="time">(${arrayMessages[i].time}) &nbsp;</p>
                 <p class="from">${arrayMessages[i].from} &nbsp;</p>
                 <p> reservadamente para &nbsp <span class="to">${arrayMessages[i].to}</span> &nbsp;</p>
