@@ -11,8 +11,8 @@ catchName();
 pickUpMensages();
 pickUpOnlineUsers();
 setInterval(pickUpMensages, 3000);
-setInterval(sendPeriodicNameRequest,5000);
-setInterval(pickUpOnlineUsers,10000);
+setInterval(sendPeriodicNameRequest, 5000);
+setInterval(pickUpOnlineUsers, 10000);
 
 
 // Requisiçoes para o servidor relacionadas ao nome do usuario
@@ -86,7 +86,7 @@ function formatMensage() {
                 </div>
                 `}
 
-        if (arrayMessages[i].type === "private-message") {
+        if (arrayMessages[i].type === "private_message" && userNamePost.name === arrayMessages[i].to) {
             messageHtml.innerHTML += ` 
                 <div class="chat ${arrayMessages[i].type}">
                 <p class="time">(${arrayMessages[i].time}) &nbsp;</p>
@@ -107,15 +107,15 @@ function scrollLastMessage() {
 
 // Requisições relacionadas a enviar mensagens ao servidor
 // pega o valor do input 
-function pickUpInputMessages(){
+function pickUpInputMessages() {
     const input = document.querySelector("footer input").value;
     treatPostMessage(input);
     clearInput();
 }
 // Pega o texto do input ao pressionar enter
-document.addEventListener("keypress", function(e) {
-    if(e.key === 'Enter') {
-        const button = document.querySelector("footer img"); 
+document.addEventListener("keypress", function (e) {
+    if (e.key === 'Enter') {
+        const button = document.querySelector("footer img");
         button.click();
     }
 });
@@ -164,34 +164,58 @@ function pickUpOnlineUsers() {
 function treatSuccesOnlineUsers(users) {
     usersData = users.data;
 }
-function formatUserList(list){
+function formatUserList(list) {
     const userSelector = document.querySelector(".online-users");
     userSelector.innerHTML = `<div class="online-user" onclick="selectMessageTarget('Todos'), selectMessageTargetCheck(this)"><img src="imgs/people.svg"/><img src="imgs/check.svg"/><p>Todos</p></div>`;
-    for(let i = 0; i < list.length; i++){
+    for (let i = 0; i < list.length; i++) {
         userSelector.innerHTML += userSelector.innerHTML = `<div class="online-user" onclick="selectMessageTarget('${list[i].name}'), selectMessageTargetCheck(this)" ><img src="imgs/people.svg"/><img src="imgs/check.svg"/><p>${list[i].name}</p></div>`;
     }
 }
-function selectMessageTarget(chosen){
+function selectMessageTarget(chosen) {
     chosenUser = chosen;
+    showRecipientName();
 }
-function selectMessageVisibility(chosen){
+function selectMessageVisibility(chosen) {
     chosenVisibility = chosen;
+    showRecipientName()
 }
 function selectMessageTargetCheck(check) {
     const checkSelectorAll = document.querySelectorAll(".online-user img:nth-of-type(2)");
     const checkSelector = check.querySelector(".online-user img:nth-of-type(2)");
-    for(let i = 0; i < checkSelectorAll.length; i++){
+    for (let i = 0; i < checkSelectorAll.length; i++) {
         checkSelectorAll[i].style.visibility = "hidden";
     }
     checkSelector.style.visibility = "visible";
 }
-function selectVisibilityCheck(check){
+function selectVisibilityCheck(check) {
     const checkSelectorAll = document.querySelectorAll(".visibility-option img:nth-of-type(2)");
     const checkSelector = check.querySelector(".visibility-option img:nth-of-type(2)");
-    for(let i = 0; i < checkSelectorAll.length; i++){
+    for (let i = 0; i < checkSelectorAll.length; i++) {
         checkSelectorAll[i].style.visibility = "hidden";
     }
     checkSelector.style.visibility = "visible";
+}
+
+
+// Coloca o usuario selecionado para enviar a mensagem
+function showRecipientName() {
+    const name = document.querySelector("footer .recipient");
+    let visibility = null;
+    if(chosenVisibility === 'message'){
+        visibility = 'Público'
+    }
+    else if(chosenVisibility === 'private_message'){
+        visibility = 'Reservadamente'
+    }
+    if(chosenUser !== 'Todos'){
+        
+        name.innerHTML = ` 
+                            <div class="recipient">
+                                <p> Enviando para ${chosenUser} (${visibility})</p>
+                            </div>
+        
+        `
+    }
 }
 
 
@@ -213,7 +237,7 @@ function selectVisibilityCheck(check){
 function openSideMenu() {
     const sideMenuBackground = document.querySelector(".side-menu-background");
     const sideMenu = document.querySelector(".side-menu");
-    const sideMenuAll =document.querySelector(".side-menu-all");
+    const sideMenuAll = document.querySelector(".side-menu-all");
     sideMenuAll.style.transition = "visibility 0s";
     sideMenuAll.style.visibility = "visible";
     sideMenu.style.width = "69%";
@@ -223,7 +247,7 @@ function openSideMenu() {
 function closeSideMenu(element) {
     const sideMenuBackground = document.querySelector(".side-menu-background");
     const sideMenu = document.querySelector(".side-menu");
-    const sideMenuAll =document.querySelector(".side-menu-all");
+    const sideMenuAll = document.querySelector(".side-menu-all");
     sideMenu.style.width = "0";
     sideMenuBackground.style.width = "0";
     sideMenuAll.style.transition = "visibility 1s";
